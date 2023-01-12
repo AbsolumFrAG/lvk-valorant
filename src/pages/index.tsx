@@ -76,7 +76,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (loadingplayers) return;
     fetchPlayersData();
-  }, [loadingplayers]);
+  }, []);
 
   return (
     <div className={styles.container}>

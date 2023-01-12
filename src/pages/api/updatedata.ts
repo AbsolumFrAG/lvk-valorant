@@ -29,7 +29,7 @@ type ValorantAPIResponse = {
 const fetchUpdatedData = async (player: Player) => {
   try {
     const response = await fetch(
-      `https://api.henrikdev.xyz/valorant/v1/mmr/euw/${encodeURIComponent(
+      `https://api.henrikdev.xyz/valorant/v1/mmr/eu/${encodeURIComponent(
         player.riotid
       )}/${player.tag}`
     );
@@ -67,13 +67,16 @@ const sendDataToFirebase = async (
   const dateString =
     today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear();
   const statDocRef = doc(db, `eloprogress/${docref}/data`, dateString);
+  let elo = response.data.currenttier - 2;
+  if (response.data.currenttier < 0)
+    elo = 0;
   await setDoc(
     statDocRef,
     {
-      MMR: response.data.elo,
+      MMR: response.data.elo ?? 0,
       eloname: response.data.currenttierpatched,
-      elo: response.data.currenttier - 2,
-      pdl: response.data.ranking_in_tier,
+      elo: elo,
+      pdl: response.data.ranking_in_tier ?? 0,
       timestamp: Timestamp.fromDate(today),
     },
     { merge: true }
