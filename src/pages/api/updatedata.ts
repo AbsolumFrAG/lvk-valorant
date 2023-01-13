@@ -67,16 +67,13 @@ const sendDataToFirebase = async (
   const dateString =
     today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear();
   const statDocRef = doc(db, `eloprogress/${docref}/data`, dateString);
-  let elo = response.data.currenttier - 2;
-  if (response.data.currenttier < 0)
-    elo = 0;
   await setDoc(
     statDocRef,
     {
-      MMR: response.data.elo ?? 0,
+      MMR: response.data.elo,
       eloname: response.data.currenttierpatched,
-      elo: elo,
-      pdl: response.data.ranking_in_tier ?? 0,
+      elo: response.data.currenttier - 2,
+      pdl: response.data.ranking_in_tier,
       timestamp: Timestamp.fromDate(today),
     },
     { merge: true }
