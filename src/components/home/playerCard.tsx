@@ -41,7 +41,7 @@ const PlayerCard = ({ player }: { player: Player }) => {
         boxSize={"300px"}
         filter={"grayscale(100%)"}
         boxShadow={"inset 0 -34px 50px 16px #181821"}
-  />
+      />
       <EloProgressBar
         props={{
           currentMMR: player.currentMMR,
